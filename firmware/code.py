@@ -23,8 +23,9 @@ def connect_wifi():
     if not WIFI_SSID or not WIFI_PASSWORD:
         raise RuntimeError("WIFI_SSID or WIFI_PASSWORD is not set in settings.toml")
 
+    zero_ip = ipaddress.ip_address("0.0.0.0")
     current_ip = wifi.radio.ipv4_address
-    if current_ip and current_ip != ipaddress.ip_address("0.0.0.0"):
+    if current_ip and current_ip != zero_ip:
         print(f"Wi-Fi already connected, IP: {current_ip}")
         return
 
@@ -33,12 +34,16 @@ def connect_wifi():
     try:
         wifi.radio.connect(WIFI_SSID, WIFI_PASSWORD)
     except Exception as ex:
-        current_ip = wifi.radio.ipv4_address
         print(f"Wi-Fi connect raised: {repr(ex)}")
 
-        if current_ip and current_ip != ipaddress.ip_address("0.0.0.0"):
-            print(f"Wi-Fi seems connected despite exception, IP: {current_ip}")
-            return
+        for attempt in range(10):
+            time.sleep(0.5)
+            current_ip = wifi.radio.ipv4_address
+            print(f"Post-error IP check {attempt + 1}: {current_ip}")
+
+            if current_ip and current_ip != zero_ip:
+                print(f"Wi-Fi seems connected despite exception, IP: {current_ip}")
+                return
 
         raise
 
