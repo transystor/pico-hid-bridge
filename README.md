@@ -1,9 +1,20 @@
 # pico-hid-bridge
 
-MVP-проект для Raspberry Pi Pico W, который:
+Проект для Raspberry Pi Pico W, который:
 - подключается к игровому ПК по USB как HID-устройство,
 - принимает простые сетевые команды от Raspberry Pi 4,
 - эмулирует движения мыши и клики.
+
+## Текущий статус
+
+Мы начали с CircuitPython MVP, но упёрлись в нестабильное поведение Wi‑Fi на Pico W.
+Поэтому основная ветка проекта теперь смещается в сторону:
+
+- `Pico SDK + C/C++`
+- `TinyUSB` для HID
+- `cyw43/lwIP` для Wi‑Fi и TCP listener
+
+CircuitPython-заготовка остаётся в репозитории как быстрый прототип и историческая reference-ветка.
 
 ## Архитектура первой версии
 
@@ -35,27 +46,37 @@ MVP-проект для Raspberry Pi Pico W, который:
 
 ## План по стеку
 
-### На Pico W
+### На Pico W, целевое направление
+- Pico SDK
+- TinyUSB HID Mouse
+- cyw43 Wi‑Fi
+- lwIP TCP listener
+
+### На Pico W, временный MVP
 - CircuitPython
 - USB HID Mouse
 - Wi-Fi client
 - TCP command listener
 
 ### На Raspberry Pi 4
-- Python daemon / API
+- .NET service или Python daemon / API
 - TCP client to Pico W
 
 ## Структура проекта
 
-- `firmware/` — прошивка для Pico W
+- `firmware/` — ранний CircuitPython MVP
+- `firmware-c/` — новое основное направление на Pico SDK / C
 - `protocol/` — описание текстового протокола
 - `notes/` — инженерные заметки и дальнейшие шаги
 - `docs/` — инструкции по запуску и эксплуатации
 
 ## Быстрый старт
 
-Смотри:
+Пока есть только quickstart для раннего CircuitPython MVP:
 - `docs/quickstart.md`
+
+Для `firmware-c/` пока добавлен только scaffold.
+Следующим шагом нужно будет поднять полноценную сборку через Pico SDK и довести до первого HID + TCP handshake.
 
 ## Ограничения первой версии
 
@@ -68,9 +89,9 @@ MVP-проект для Raspberry Pi Pico W, который:
 
 ## Следующие шаги
 
-1. Поднять прошивку Pico W на CircuitPython.
-2. Проверить, что ПК видит Pico как мышь.
-3. Поднять Wi-Fi соединение Pico W.
+1. Довести `firmware-c/` до собираемого состояния через Pico SDK.
+2. Поднять первый USB HID mouse report на TinyUSB.
+3. Поднять первый TCP listener через lwIP.
 4. Принять первую команду `MOVE 10 0`.
 5. Проверить первый клик `CLICK LEFT`.
-6. После этого добавлять keyboard и safety-ограничения.
+6. После этого добавлять keyboard, queue и safety-ограничения.
