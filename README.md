@@ -72,10 +72,14 @@ CircuitPython-заготовка остаётся в репозитории ка
 
 ## Быстрый старт
 
-Пока есть только quickstart для раннего CircuitPython MVP:
+Для раннего CircuitPython MVP:
 - `docs/quickstart.md`
 
-Для `firmware-c/` пока добавлен только scaffold.
+Для нового направления на Pico SDK:
+- `docs/pico-sdk-plan.md`
+- `docs/build-windows.md`
+
+Для `firmware-c/` пока добавлен scaffold.
 Следующим шагом нужно будет поднять полноценную сборку через Pico SDK и довести до первого HID + TCP handshake.
 
 ## Ограничения первой версии
