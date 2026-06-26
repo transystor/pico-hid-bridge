@@ -19,6 +19,7 @@ target_include_directories(pico_hid_bridge PRIVATE
 
 target_link_libraries(pico_hid_bridge PRIVATE
     pico_stdlib
+    pico_unique_id
     pico_cyw43_arch_lwip_threadsafe_background
     tinyusb_device
     tinyusb_board
