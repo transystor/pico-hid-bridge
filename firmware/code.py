@@ -3,6 +3,7 @@ import time
 import socketpool
 import wifi
 import usb_hid
+import ipaddress
 
 from adafruit_hid.mouse import Mouse
 
@@ -22,9 +23,27 @@ def connect_wifi():
     if not WIFI_SSID or not WIFI_PASSWORD:
         raise RuntimeError("WIFI_SSID or WIFI_PASSWORD is not set in settings.toml")
 
+    current_ip = wifi.radio.ipv4_address
+    if current_ip and current_ip != ipaddress.ip_address("0.0.0.0"):
+        print(f"Wi-Fi already connected, IP: {current_ip}")
+        return
+
     print(f"Connecting to Wi-Fi: {WIFI_SSID}")
-    wifi.radio.connect(WIFI_SSID, WIFI_PASSWORD)
-    print(f"Wi-Fi connected, IP: {wifi.radio.ipv4_address}")
+
+    try:
+        wifi.radio.connect(WIFI_SSID, WIFI_PASSWORD)
+    except Exception as ex:
+        current_ip = wifi.radio.ipv4_address
+        print(f"Wi-Fi connect raised: {repr(ex)}")
+
+        if current_ip and current_ip != ipaddress.ip_address("0.0.0.0"):
+            print(f"Wi-Fi seems connected despite exception, IP: {current_ip}")
+            return
+
+        raise
+
+    current_ip = wifi.radio.ipv4_address
+    print(f"Wi-Fi connected, IP: {current_ip}")
 
 
 
@@ -106,13 +125,17 @@ def handle_command(command: str):
 
 
 def run_server():
+    current_ip = wifi.radio.ipv4_address
+    if not current_ip or current_ip == ipaddress.ip_address("0.0.0.0"):
+        raise RuntimeError("wifi_has_no_ip")
+
     pool = socketpool.SocketPool(wifi.radio)
     server = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
     server.setsockopt(pool.SOL_SOCKET, pool.SO_REUSEADDR, 1)
-    server.bind((str(wifi.radio.ipv4_address), LISTEN_PORT))
+    server.bind((str(current_ip), LISTEN_PORT))
     server.listen(1)
 
-    print(f"Listening on {wifi.radio.ipv4_address}:{LISTEN_PORT}")
+    print(f"Listening on {current_ip}:{LISTEN_PORT}")
 
     while True:
         client, addr = server.accept()
