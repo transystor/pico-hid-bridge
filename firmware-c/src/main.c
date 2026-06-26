@@ -8,11 +8,11 @@
 #include "bsp/board.h"
 #include "tusb.h"
 
-#define WIFI_SSID "CHANGE_ME"
-#define WIFI_PASSWORD "CHANGE_ME"
-#define TCP_PORT 5000
-#define STARTUP_LED_BLINK_MS 200
-#define DEMO_MOVE_INTERVAL_MS 1500
+#include "config.h"
+
+#define TCP_PORT PICO_HID_BRIDGE_TCP_PORT
+#define STARTUP_LED_BLINK_MS PICO_HID_BRIDGE_LED_BLINK_MS
+#define DEMO_MOVE_INTERVAL_MS PICO_HID_BRIDGE_DEMO_MOVE_INTERVAL_MS
 
 static void hid_task(void);
 static bool wifi_connect_blocking(void);
@@ -57,12 +57,12 @@ static bool wifi_connect_blocking(void)
 {
     cyw43_arch_enable_sta_mode();
 
-    printf("Connecting to Wi-Fi: %s\n", WIFI_SSID);
+    printf("Connecting to Wi-Fi: %s\n", PICO_HID_BRIDGE_WIFI_SSID);
 
     int result = cyw43_arch_wifi_connect_timeout_ms(
-        WIFI_SSID,
-        WIFI_PASSWORD,
-        CYW43_AUTH_WPA2_AES_PSK,
+        PICO_HID_BRIDGE_WIFI_SSID,
+        PICO_HID_BRIDGE_WIFI_PASSWORD,
+        PICO_HID_BRIDGE_WIFI_AUTH,
         30000);
 
     if (result != 0)

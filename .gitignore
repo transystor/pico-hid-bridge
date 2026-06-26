@@ -1,1 +1,3 @@
 firmware/settings.toml
+firmware-c/build/
+firmware-c/src/config.h

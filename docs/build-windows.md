@@ -67,7 +67,20 @@ arm-none-eabi-gcc --version
 
 Если какой-то команды нет, сначала нужно поставить соответствующий инструмент и открыть новое окно терминала.
 
-## 5. Создать build directory
+## 5. Подготовить локальный config
+
+Перед сборкой скопируй:
+
+```powershell
+Copy-Item .\firmware-c\src\config.h.example .\firmware-c\src\config.h
+```
+
+Потом открой `firmware-c/src/config.h` и укажи:
+- `PICO_HID_BRIDGE_WIFI_SSID`
+- `PICO_HID_BRIDGE_WIFI_PASSWORD`
+- при необходимости `PICO_HID_BRIDGE_WIFI_AUTH`
+
+## 6. Создать build directory
 
 Из корня репозитория:
 
@@ -77,7 +90,7 @@ mkdir build
 cd build
 ```
 
-## 6. Сгенерировать build system
+## 7. Сгенерировать build system
 
 Для Ninja:
 
@@ -87,7 +100,7 @@ cmake -G Ninja ..
 
 Если всё ок, CMake найдёт Pico SDK через `PICO_SDK_PATH`.
 
-## 7. Собрать проект
+## 8. Собрать проект
 
 ```powershell
 ninja
@@ -98,7 +111,7 @@ ninja
 - `pico_hid_bridge.elf`
 - `pico_hid_bridge.bin`
 
-## 8. Залить `.uf2` на Pico W
+## 9. Залить `.uf2` на Pico W
 
 1. Зажать `BOOTSEL`
 2. Подключить Pico W по USB

@@ -17,6 +17,10 @@ target_include_directories(pico_hid_bridge PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
+if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h)
+    message(FATAL_ERROR "firmware-c/src/config.h is missing. Copy config.h.example to config.h and fill Wi-Fi settings.")
+endif ()
+
 target_link_libraries(pico_hid_bridge PRIVATE
     pico_stdlib
     pico_unique_id

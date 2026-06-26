@@ -38,8 +38,8 @@
 
 ## Что ещё нужно будет доделать
 
-- убрать compile-time заглушки `CHANGE_ME`
-- оформить Wi‑Fi credentials через compile definitions или отдельный config header
+- заполнить локальный `firmware-c/src/config.h` на основе `config.h.example`
+- при желании позже перевести Wi‑Fi credentials с config header на compile definitions
 - проверить корректность descriptor path на реальной сборке
 - убедиться, что host действительно видит устройство как мышь
 - только после этого добавлять lwIP TCP server

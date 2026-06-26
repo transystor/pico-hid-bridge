@@ -1,0 +1,17 @@
+#ifndef PICO_HID_BRIDGE_CONFIG_H
+#define PICO_HID_BRIDGE_CONFIG_H
+
+// Скопируй этот файл как config.h и заполни своими значениями.
+
+#define PICO_HID_BRIDGE_WIFI_SSID "CHANGE_ME"
+#define PICO_HID_BRIDGE_WIFI_PASSWORD "CHANGE_ME"
+#define PICO_HID_BRIDGE_WIFI_AUTH CYW43_AUTH_WPA2_AES_PSK
+#define PICO_HID_BRIDGE_TCP_PORT 5000
+
+// Интервал demo-движения мыши для первого milestone.
+#define PICO_HID_BRIDGE_DEMO_MOVE_INTERVAL_MS 1500
+
+// Интервал мигания onboard LED.
+#define PICO_HID_BRIDGE_LED_BLINK_MS 200
+
+#endif
