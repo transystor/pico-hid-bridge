@@ -79,6 +79,7 @@ CircuitPython-заготовка остаётся в репозитории ка
 - `docs/pico-sdk-plan.md`
 - `docs/build-windows.md`
 - `docs/first-build-goal.md`
+- `docs/pre-build-checklist.md`
 
 Для `firmware-c/` пока добавлен scaffold.
 Следующим шагом нужно будет поднять полноценную сборку через Pico SDK и довести до первого HID + TCP handshake.

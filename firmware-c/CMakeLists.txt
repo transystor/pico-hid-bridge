@@ -27,6 +27,7 @@ target_link_libraries(pico_hid_bridge PRIVATE
     pico_cyw43_arch_lwip_threadsafe_background
     tinyusb_device
     tinyusb_board
+    hardware_gpio
 )
 
 pico_enable_stdio_usb(pico_hid_bridge 1)

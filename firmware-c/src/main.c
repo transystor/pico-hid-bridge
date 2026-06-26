@@ -87,11 +87,9 @@ static void hid_task(void)
         next_demo_move_at = make_timeout_time_ms(DEMO_MOVE_INTERVAL_MS);
 
         // Временная демонстрационная проверка HID канала.
-        // Двигаем мышь чуть вправо и обратно, чтобы на первом этапе
-        // подтвердить, что TinyUSB mouse report реально проходит до ПК.
+        // На первом проходе делаем только очень маленькое движение вправо.
+        // Если оно реально сработает на хосте, значит базовый USB HID путь жив.
         tud_hid_mouse_report(0, 0x00, 8, 0, 0, 0);
-        sleep_ms(25);
-        tud_hid_mouse_report(0, 0x00, -8, 0, 0, 0);
     }
 }
 
